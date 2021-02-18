@@ -1,0 +1,73 @@
+﻿@model DealerOnExample.Models.MarsRoverViewModel
+
+@{
+    ViewData["Title"] = "MarsRover";
+}
+
+<h1>Mars Rovers</h1>
+
+@using (Html.BeginForm("MarsRover", "Home", FormMethod.Post))
+{
+    <div class="form-row">
+        <div class="col-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-2" style="max-width:none">
+            <label for="GridSizeX">Grid Size X</label>
+            @Html.ValidationMessageFor(m => m.GridSizeX, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.GridSizeX, "", new { @type = "number" })
+        </div>
+        <div class="form-group col-2" style="max-width:none">
+            <label for="GridSizeY">Grid Size Y</label>
+            @Html.ValidationMessageFor(m => m.GridSizeY, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.GridSizeY, "", new { @type = "number" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-2">
+            <label for="Command">
+                Rover Commands *
+            </label>
+            @Html.TextAreaFor(m => m.Command)
+        </div>
+        <div class="col-2">
+            @Html.ValidationMessageFor(m => m.Command, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-2">
+            <small class="form-text text-muted">*First Line Initializes a rover in the format of "X Y (N,E,S,W)" with spaces inbetween.</small>
+        </div>
+        <div class="form-group col-2">
+            <small class="form-text text-muted">*Second Line commands initialized rover in the format of "(l,r,m)" without spaces.</small>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-4">
+            <input class="btn btn-primary" type="submit" value="Calculate" />
+        </div>
+    </div>
+}
+@foreach (var rover in Model.MarsRovers)
+{
+    <div class="row">
+        <div class="col-1">
+            ID: @rover.Id
+        </div>
+        <div class="col-1">
+            X: @rover.X
+        </div>
+        <div class="col-1">
+            Y: @rover.Y
+        </div>
+        <div class="col">
+            Direction: @rover.Direction
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
